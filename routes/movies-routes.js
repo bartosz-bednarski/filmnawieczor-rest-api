@@ -3,7 +3,8 @@ const router = express.Router();
 const movies = require("../controllers/movies-controllers");
 router.get("/", async (req, res, next) => {
   try {
-    res.json(await movies.getAllMovies());
+    const data = await movies.getAllMovies();
+    res.json(data);
     // const result = await db.query("SELECT * FROM movie_category");
     // console.log("results", result);
     // res.json(result);
