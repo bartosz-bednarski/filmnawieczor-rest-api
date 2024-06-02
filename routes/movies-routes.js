@@ -11,7 +11,7 @@ router.get("/", async (req, res, next) => {
     // // res.json(result);
   } catch (error) {
     console.error(`Error while getting programming languages `, error.message);
-    next(err);
+    next(error);
   }
 });
 module.exports = router;
