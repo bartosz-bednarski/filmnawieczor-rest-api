@@ -1,13 +1,13 @@
 const db = require("./db");
 
-const getAllMovies = async () => {
+const getLast10Series = async () => {
   const rows = await db.query(
-    "SELECT m.id AS 'id', m.name AS 'name', m.description AS 'description', m.image_cover AS 'image_cover', GROUP_CONCAT(DISTINCT ap.action_place SEPARATOR ', ') AS 'action_place', MIN(at.action_time_start) AS 'action_time_start', MAX(at.action_time_end) AS 'action_time_end', GROUP_CONCAT(DISTINCT mc.movie_category SEPARATOR ', ') AS 'category', ml.movie_length AS 'movie_length', mr.movie_rating AS 'rating', py.production_year AS 'production_year' FROM movies m LEFT JOIN movies_action_place ap ON m.id = ap.movie_id LEFT JOIN movies_action_time at ON m.id = at.movie_id LEFT JOIN movies_categories mc ON m.id = mc.movie_id LEFT JOIN movies_length ml ON m.id = ml.movie_id LEFT JOIN movies_rating mr ON m.id = mr.movie_id LEFT JOIN movies_production_year py ON m.id = py.movie_id GROUP BY m.id, m.name, m.description, m.image_cover, ml.movie_length, mr.movie_rating, py.production_year order by m.id desc;"
+    "SELECT s.id AS 'id', s.name AS 'name',s.seasons_count AS 'seasons_count', s.description AS 'description', s.image_cover AS 'image_cover', GROUP_CONCAT(DISTINCT ap.action_place SEPARATOR ', ') AS 'action_place', MIN(at.action_time_start) AS 'action_time_start', MAX(at.action_time_end) AS 'action_time_end', GROUP_CONCAT(DISTINCT sc.serie_category SEPARATOR ', ') AS 'category', sr.serie_rating AS 'rating', MIN(py.production_year_start) AS 'production_year_start', MAX(py.production_year_end) AS 'production_year_end' FROM series s LEFT JOIN series_action_place ap ON s.id = ap.serie_id LEFT JOIN series_action_time at ON s.id = at.serie_id LEFT JOIN series_categories sc ON s.id = sc.serie_id LEFT JOIN series_rating sr ON s.id = sr.serie_id LEFT JOIN series_production_year py ON s.id = py.serie_id GROUP BY s.id, s.name, s.description, s.image_cover, sr.serie_rating, py.production_year_start, py.production_year_end order by s.id desc limit 10;"
   );
   return rows;
 };
 
-const getFilteredMovies = async (req) => {
+const getFilteredSeries = async (req) => {
   const queryFilters = req.data
     .map((item, index) => {
       //check if there is only one filter (no need to put and after each filter)
@@ -127,7 +127,7 @@ const getFilteredMovies = async (req) => {
       }
     })
     .join(" ");
-  const queryParams = `SELECT m.id AS 'id', m.name AS 'name', m.description AS 'description', m.image_cover AS 'image_cover', GROUP_CONCAT(DISTINCT ap.action_place SEPARATOR ', ') AS 'action_place', MIN(at.action_time_start) AS 'action_time_start', MAX(at.action_time_end) AS 'action_time_end', GROUP_CONCAT(DISTINCT mc.movie_category SEPARATOR ', ') AS 'category', ml.movie_length AS 'movie_length', mr.movie_rating AS 'rating', py.production_year AS 'production_year' FROM movies m LEFT JOIN movies_action_place ap ON m.id = ap.movie_id LEFT JOIN movies_action_time at ON m.id = at.movie_id LEFT JOIN movies_categories mc ON m.id = mc.movie_id LEFT JOIN movies_length ml ON m.id = ml.movie_id LEFT JOIN movies_rating mr ON m.id = mr.movie_id LEFT JOIN movies_production_year py ON m.id = py.movie_id WHERE ${queryFilters} GROUP BY m.id, m.name, m.description, m.image_cover, ml.movie_length, mr.movie_rating, py.production_year;`;
+  const queryParams = `SELECT m.id AS 'id', m.name AS 'name', m.description AS 'description', m.image_cover AS 'image_cover', GROUP_CONCAT(DISTINCT ap.action_place SEPARATOR ', ') AS 'action_place', MIN(at.action_time_start) AS 'action_time_start', MAX(at.action_time_end) AS 'action_time_end', GROUP_CONCAT(DISTINCT mc.movie_category SEPARATOR ', ') AS 'category', ml.movie_length AS 'movie_length', mr.movie_rating AS 'rating', py.production_year AS 'production_year' FROM movies m LEFT JOIN movies_action_place ap ON m.id = ap.movie_id LEFT JOIN movies_action_time at ON m.id = at.movie_id LEFT JOIN movies_categories mc ON m.id = mc.movie_id LEFT JOIN movies_length ml ON m.id = ml.movie_id LEFT JOIN movies_rating mr ON m.id = mr.movie_id LEFT JOIN movies_production_year py ON m.id = py.movie_id WHERE ${queryFilters} GROUP BY m.id, m.name, m.description, m.image_cover, ml.movie_length, mr.movie_rating, py.production_year order by s.id desc ;`;
   const rows = await db.query(queryParams);
   console.log(rows);
   return rows;
@@ -135,6 +135,6 @@ const getFilteredMovies = async (req) => {
   // return [];
 };
 module.exports = {
-  getAllMovies,
-  getFilteredMovies,
+  getLast10Series,
+  getFilteredSeries,
 };

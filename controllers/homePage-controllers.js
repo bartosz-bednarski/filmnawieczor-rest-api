@@ -5,6 +5,12 @@ const getLatestMovies = async () => {
   );
   return rows;
 };
+const getLatestSeries = async () => {
+  const rows = await db.query(
+    "select id,name,image_cover from series order by id desc limit 10;"
+  );
+  return rows;
+};
 const getLatestNews = async () => {
   const rows = await db.query(
     "select id,url,title,image_cover from news order by id desc limit 10;"
@@ -13,5 +19,6 @@ const getLatestNews = async () => {
 };
 module.exports = {
   getLatestMovies,
+  getLatestSeries,
   getLatestNews,
 };
