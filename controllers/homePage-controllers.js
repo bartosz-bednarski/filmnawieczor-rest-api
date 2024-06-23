@@ -1,19 +1,19 @@
 const db = require("./db");
 const getLatestMovies = async () => {
   const rows = await db.query(
-    "select id,name,image_cover from movies order by id desc limit 10;"
+    "select id,name,image_cover from movies order by id desc limit 9;"
   );
   return rows;
 };
 const getLatestSeries = async () => {
   const rows = await db.query(
-    "select id,name,image_cover from series order by id desc limit 10;"
+    "select id,name,image_cover from series order by id desc limit 9;"
   );
   return rows;
 };
 const getLatestNews = async () => {
   const rows = await db.query(
-    "select id,url,title,image_cover from news order by id desc limit 10;"
+    "select id,url,title,image_cover from news order by id desc limit 9;"
   );
   return rows;
 };
