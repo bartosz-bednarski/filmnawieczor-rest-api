@@ -47,5 +47,13 @@ router.post("/next5filtered", async (req, res, next) => {
     next(error);
   }
 });
-
+router.get("/:movieId", async (req, res, next) => {
+  try {
+    const data = await movies.getMovieDetails(req.params.movieId);
+    res.json(data);
+  } catch (error) {
+    console.error(`Error while getting programming languages `, error.message);
+    next(error);
+  }
+});
 module.exports = router;
