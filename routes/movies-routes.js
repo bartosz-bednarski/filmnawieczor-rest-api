@@ -10,11 +10,10 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
-router.get("/last10", async (req, res, next) => {
+router.post("/last10", async (req, res, next) => {
   try {
-    const data = await movies.getLast10Movies();
+    const data = await movies.getLast10Movies(req.body);
     res.json(data);
-    s;
   } catch (error) {
     console.error(`Error while getting programming languages `, error.message);
     next(error);
