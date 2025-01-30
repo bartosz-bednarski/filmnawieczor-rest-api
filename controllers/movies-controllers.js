@@ -6,7 +6,7 @@ const getMovieDetails = async (id) => {
   return rows;
 };
 const getAllMoviesIds = async () =>{
-  const rows = await db.query(`SELECT id FROM movies;`);
+  const rows = await db.query('SELECT id FROM movies;');
   return rows;
 };
 const getLast10Movies = async (req) => {
