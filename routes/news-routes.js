@@ -9,7 +9,7 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
-router.get("/allIds", async ( res, next) => {
+router.get("/allIds", async (req, res, next) => {
   try {
     const data = await newsPage.getAllIds();
     res.json(data);
