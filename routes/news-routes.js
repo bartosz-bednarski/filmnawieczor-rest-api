@@ -12,7 +12,8 @@ router.get("/", async (req, res, next) => {
 router.get("/allIds", async (req, res, next) => {
   try {
     const data = await newsPage.getAllIds();
-    res.json(data);
+    const arrayWithIds = data.map(item=>item.id);
+    res.json(arrayWithIds);
   } catch (error) {
     console.error(`Error while getting programming languages `, error.message);
     next(error);
