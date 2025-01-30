@@ -1,17 +1,14 @@
 const db = require("./db");
-
 const getMovieDetails = async (id) => {
   const rows = await db.query(
     `SELECT m.id AS 'id', m.name AS 'name', m.description AS 'description', md.meta_description as 'meta_description', md.url as 'url',md.image_details_cover AS 'image_cover', GROUP_CONCAT(DISTINCT ap.action_place SEPARATOR ', ') AS 'action_place', MIN(mat.action_time_start) AS 'action_time_start', MAX(mat.action_time_end) AS 'action_time_end', GROUP_CONCAT(DISTINCT mc.movie_category SEPARATOR ', ') AS 'category', ml.movie_length AS 'movie_length', mr.movie_rating AS 'rating', py.production_year AS 'production_year',u.universe_name AS 'universe' FROM movies m LEFT JOIN movies_action_place ap ON m.id = ap.movie_id LEFT JOIN movies_action_time mat ON m.id = mat.movie_id LEFT JOIN movies_categories mc ON m.id = mc.movie_id LEFT JOIN movies_length ml ON m.id = ml.movie_id LEFT JOIN movies_rating mr ON m.id = mr.movie_id LEFT JOIN movies_production_year py ON m.id = py.movie_id LEFT JOIN movies_details md ON m.id = md.movie_id LEFT JOIN universes u on u.id = m.universe Where m.ready_to_publish=1 AND m.id=${id} GROUP BY m.id, m.name, m.description, m.image_cover, ml.movie_length, mr.movie_rating, py.production_year order by m.id;`
   );
   return rows;
 };
-
 const getAllMoviesIds = async () =>{
   const rows = await db.query(`SELECT id FROM movies;`);
   return rows;
-}
-
+};
 const getLast10Movies = async (req) => {
   const filterBy = req.data.filterBy;
   const filterOrder = req.data.filterOrder;
