@@ -9,6 +9,15 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+router.get("/allIds", async ( res, next) => {
+  try {
+    const data = await newsPage.getAllIds();
+    res.json(data);
+  } catch (error) {
+    console.error(`Error while getting programming languages `, error.message);
+    next(error);
+  }
+});
 router.get("/last10News", async (req, res, next) => {
   try {
     const data = await newsPage.getLast10News();

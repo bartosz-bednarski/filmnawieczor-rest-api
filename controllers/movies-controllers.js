@@ -7,6 +7,11 @@ const getMovieDetails = async (id) => {
   return rows;
 };
 
+const getAllMoviesIds = async () =>{
+  const rows = await db.query('SELECT id FROM movies');
+  return rows
+}
+
 const getLast10Movies = async (req) => {
   const filterBy = req.data.filterBy;
   const filterOrder = req.data.filterOrder;
@@ -279,4 +284,5 @@ module.exports = {
   getNext5Movies,
   getNext5FilteredMovies,
   getMovieDetails,
+  getAllMoviesIds
 };
