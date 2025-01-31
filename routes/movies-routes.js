@@ -49,8 +49,7 @@ router.post("/next5filtered", async (req, res, next) => {
 router.get("/allIds", async (req,res, next) => {
   try {
     const data = await movies.getAllMoviesIds();
-    const arrayWithIds = data.map(item=>item.movie_id);
-    res.json(arrayWithIds);
+    res.json(data);
   } catch (error) {
     console.error(`Error while getting programming languages `, error.message);
     next(error);

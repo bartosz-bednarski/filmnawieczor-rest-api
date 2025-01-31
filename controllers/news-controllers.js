@@ -6,7 +6,7 @@ const getLast10News = async () => {
   return rows;
 };
 const getAllIds = async () =>{
-const rows = await db.query('SELECT id FROM news;');
+const rows = await db.query('SELECT id,url FROM news;');
 return rows;
 };
 const getNewsDetails = async (newsUrl) => {
