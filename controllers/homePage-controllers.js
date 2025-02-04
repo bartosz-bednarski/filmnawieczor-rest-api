@@ -1,7 +1,7 @@
 const db = require("./db");
 const getLatestMovies = async () => {
   const rows = await db.query(
-    "select id,name,image_cover,description from movies where ready_to_publish=1 order by id desc limit 9;"
+    "select id,name,image_cover,description,url from movies where ready_to_publish=1 order by id desc limit 9;"
   );
   return rows;
 };

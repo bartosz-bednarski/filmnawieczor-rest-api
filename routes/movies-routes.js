@@ -55,6 +55,15 @@ router.get("/allIds", async (req,res, next) => {
     next(error);
   }
 });
+router.get("/allUrls", async (req,res, next) => {
+  try {
+    const data = await movies.getAllMoviesUrls();
+    res.json(data);
+  } catch (error) {
+    console.error(`Error while getting programming languages `, error.message);
+    next(error);
+  }
+});
 router.get("/:movieId", async (req, res, next) => {
   try {
     const data = await movies.getMovieDetails(req.params.movieId);
